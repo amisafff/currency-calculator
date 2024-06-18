@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BlazorApp6.bundle.scp.css",
+      "PackagePath": "staticwebassets\\BlazorApp6.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BlazorApp6.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BlazorApp6.props",
+      "PackagePath": "build\\BlazorApp6.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BlazorApp6.props",
+      "PackagePath": "buildMultiTargeting\\BlazorApp6.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BlazorApp6.props",
+      "PackagePath": "buildTransitive\\BlazorApp6.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

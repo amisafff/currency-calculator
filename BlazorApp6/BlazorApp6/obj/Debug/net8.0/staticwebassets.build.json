@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "Hash": "ZiZtJ59iNjFeJqKXRBpTQwWbQfHlEgsXMgFIk3Shg6s=",
+  "Source": "BlazorApp6",
+  "BasePath": "_content/BlazorApp6",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "BlazorApp6\\wwwroot",
+      "Source": "BlazorApp6",
+      "ContentRoot": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\wwwroot\\",
+      "BasePath": "_content/BlazorApp6",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\bundle\\BlazorApp6.styles.css",
+      "SourceId": "BlazorApp6",
+      "SourceType": "Computed",
+      "ContentRoot": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "BasePath": "_content/BlazorApp6",
+      "RelativePath": "BlazorApp6.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\bundle\\BlazorApp6.styles.css"
+    },
+    {
+      "Identity": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BlazorApp6.bundle.scp.css",
+      "SourceId": "BlazorApp6",
+      "SourceType": "Computed",
+      "ContentRoot": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "BasePath": "_content/BlazorApp6",
+      "RelativePath": "BlazorApp6.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BlazorApp6.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\wwwroot\\app.css",
+      "SourceId": "BlazorApp6",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Учеба\\C#\\BlazorApp6\\BlazorApp6\\wwwroot\\",
+      "BasePath": "_content/BlazorApp6",
+      "RelativePath": "app.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\app.css"
+    }
+  ]
+}

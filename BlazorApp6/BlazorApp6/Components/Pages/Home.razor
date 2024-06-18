@@ -1,0 +1,220 @@
+﻿@page "/"
+@using System.Collections.Generic
+@inject Nbrb nbrb
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components
+@using System.Data
+@using System.Text.RegularExpressions
+
+<PageTitle>Calculator</PageTitle>
+
+<div class="container">
+    <div class="calculator">
+        <input type="text" class="screen" value="@currentInput" disabled />
+
+        @if (currentInput != "")
+        {
+            <select class="selected" @bind="selectedOption1">
+                @foreach (var item in ExchangeRate)
+                {
+                    <option value="@item.Cur_Name">@item.Cur_Name</option>
+                }
+            </select>
+        }
+        @if (check >= 1)
+        {
+            <select class="selected" @bind="selectedOption2">
+                @foreach (var item in ExchangeRate)
+                {
+                    <option value="@item.Cur_Name">@item.Cur_Name</option>
+                }
+            </select>
+        }
+        @if (check >= 2)
+        {
+            <select class="selected" @bind="selectedOption3">
+                @foreach (var item in ExchangeRate)
+                {
+                    <option value="@item.Cur_Name">@item.Cur_Name</option>
+                }
+            </select>
+        }
+
+        <div class="buttons">
+            <button class="number" @onclick='() => OnNumberClick("1")'>1</button>
+            <button class="number" @onclick='() => OnNumberClick("2")'>2</button>
+            <button class="number" @onclick='() => OnNumberClick("3")'>3</button>
+            <button class="operator" @onclick='() => OnOperatorClick("+")'>+</button>
+            <button class="number" @onclick='() => OnNumberClick("4")'>4</button>
+            <button class="number" @onclick='() => OnNumberClick("5")'>5</button>
+            <button class="number" @onclick='() => OnNumberClick("6")'>6</button>
+            <button class="operator" @onclick='() => OnOperatorClick("-")'>-</button>
+            <button class="number" @onclick='() => OnNumberClick("7")'>7</button>
+            <button class="number" @onclick='() => OnNumberClick("8")'>8</button>
+            <button class="number" @onclick='() => OnNumberClick("9")'>9</button>
+            <button class="operator" @onclick='() => OnOperatorClick("*")'>*</button>
+            <button class="clear" @onclick="OnClearClick">C</button>
+            <button class="number" @onclick='() => OnNumberClick("0")'>0</button>
+            <button class="equal" @onclick="OnEqualClick">=</button>
+            <button class="operator" @onclick='() => OnOperatorClick("/")'>/</button>
+
+            <p>Валюта ответа:</p>
+            <select class="selected" @bind="selectedOption4">
+                @foreach (var item in ExchangeRate)
+                {
+                    <option value="@item.Cur_Name">@item.Cur_Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="results">
+        <h3>Предыдущие результаты:</h3>
+        <ul>
+            @foreach (var entry in resultsList)
+            {
+                <li>@entry.Result ( @entry.Currency)</li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    private string? curId = null;
+    private List<ExchangeRate> ExchangeRate = new List<ExchangeRate>();
+    private string currentInput = "";
+    private string? selectedOption1;
+    private string? selectedOption2;
+    private string? selectedOption3;
+    private string? selectedOption4;
+    private int check = 0;
+    private List<ResultEntry> resultsList = new List<ResultEntry>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetExchangeRate();
+    }
+
+    private async Task GetExchangeRate()
+    {
+        try
+        {
+            ExchangeRate = await nbrb.GetExchangeRateAsync(curId ?? "defaultId");
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error getting exchange rate: {ex.Message}");
+        }
+    }
+
+    private void OnNumberClick(string number)
+    {
+        currentInput += number;
+        Console.WriteLine($"Number clicked: {number}");
+        Console.WriteLine($"Current input: {currentInput}");
+        StateHasChanged();
+    }
+
+    private void OnOperatorClick(string operatorSymbol)
+    {
+        currentInput += $" {operatorSymbol} ";
+        Console.WriteLine($"Operator clicked: {operatorSymbol}");
+        Console.WriteLine($"Current input: {currentInput}");
+        if (operatorSymbol == "+" || operatorSymbol == "-")
+        {
+            check++;
+            Console.WriteLine($"Check value: {check}");
+            StateHasChanged();
+        }
+    }
+
+    private void OnClearClick()
+    {
+        currentInput = "";
+        check = 0;
+        Console.WriteLine("Clear clicked");
+        StateHasChanged();
+    }
+
+    private void OnEqualClick()
+    {
+        selectedOption1 = selectedOption1 ?? "defaultOption1";
+        selectedOption2 = selectedOption2 ?? "defaultOption2";
+        selectedOption3 = selectedOption3 ?? "defaultOption3";
+        selectedOption4 = selectedOption4 ?? "defaultOption4";
+
+        currentInput = ModifyExpression(currentInput, ExchangeRate, selectedOption1 ?? "defaultOption1", selectedOption2 ?? "defaultOption2", selectedOption3 ?? "defaultOption3");
+        Console.WriteLine(selectedOption1);
+        currentInput = currentInput.Replace(",", ".");
+        try
+        {
+            var result = new DataTable().Compute(currentInput, null);
+
+            if (double.TryParse(result.ToString(), out double numericResult))
+            {
+                foreach (var item in ExchangeRate)
+                {
+                    if (item.Cur_Name == selectedOption4)
+                    {
+                        double officialRate = Convert.ToDouble(item.Cur_OfficialRate);
+                        numericResult = numericResult / officialRate;
+                    }
+                }
+
+                currentInput = numericResult.ToString();
+                resultsList.Add(new ResultEntry { Result = currentInput, Currency = selectedOption4 });  
+                Console.WriteLine($"Equal clicked, result: {currentInput}");
+            }
+            else
+            {
+                Console.WriteLine("Ошибка");
+                currentInput = "Error";
+            }
+        }
+        catch (Exception ex)
+        {
+            currentInput = "Error";
+            Console.WriteLine($"Equal clicked, error in computation: {ex.Message}");
+        }
+    }
+
+    private double GetExchangeRateForCurrency(string currencyName, List<ExchangeRate> exchangeRates)
+    {
+        var rate = exchangeRates.FirstOrDefault(r => r.Cur_Name == currencyName)?.Cur_OfficialRate ?? 0;
+        return Convert.ToDouble(rate);
+    }
+
+
+    private string ModifyExpression(string input, List<ExchangeRate> exchangeRates, string selectedOption1, string selectedOption2, string selectedOption3)
+    {
+        string pattern = @"([+-]?)\s*(\d+)";
+        int matchCount = 0;
+
+        string result = Regex.Replace(input, pattern, match =>
+        {
+            string operatorSymbol = match.Groups[1].Value;
+            int number = int.Parse(match.Groups[2].Value);
+            matchCount++;
+
+            double rate = matchCount switch
+            {
+                1 => GetExchangeRateForCurrency(selectedOption1, exchangeRates),
+                2 => GetExchangeRateForCurrency(selectedOption2, exchangeRates),
+                3 => GetExchangeRateForCurrency(selectedOption3, exchangeRates),
+                _ => 0
+            };
+
+            if (rate > 0)
+            {   
+                return $"{operatorSymbol}{number * rate}";
+            }
+
+            return match.Value;
+        });
+
+        return result;
+    }
+
+}
